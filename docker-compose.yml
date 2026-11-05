@@ -1,0 +1,32 @@
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: stayscape-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: stayscape
+      POSTGRES_PASSWORD: stayscape_dev
+      POSTGRES_DB: stayscape
+    ports:
+      - "5432:5432"
+    volumes:
+      - stayscape-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stayscape -d stayscape"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mongodb:
+    image: mongo:7
+    container_name: stayscape-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - stayscape-mongodb-data:/data/db
+
+volumes:
+  stayscape-postgres-data:
+  stayscape-mongodb-data:

@@ -1,0 +1,270 @@
+.hotel-details-page {
+  min-height: 100vh;
+  background: #faf9f6;
+  color: #202b3c;
+}
+
+.details-navbar {
+  height: 82px;
+  padding: 0 8%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-bottom: 1px solid #eeeae3;
+}
+
+.details-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #202b3c;
+  text-decoration: none;
+  font-family: "Playfair Display", serif;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.details-brand .brand-icon {
+  background: #bd965b;
+  color: white;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  font-family: sans-serif;
+  font-size: 18px;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #596273;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.back-link:hover {
+  color: #bd965b;
+}
+
+.hotel-details-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 55px 30px 80px;
+}
+
+.details-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.details-category {
+  color: #bd965b;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.details-heading h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 42px;
+  margin: 10px 0;
+  color: #202b3c;
+}
+
+.details-location {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #737b87;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.details-address {
+  color: #9299a3;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.details-rating {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #bd965b;
+  padding-bottom: 8px;
+  white-space: nowrap;
+}
+
+.details-rating strong {
+  color: #202b3c;
+}
+
+.details-rating span {
+  color: #737b87;
+  font-size: 13px;
+}
+
+.details-image {
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.details-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.details-content {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 65px;
+  margin-top: 45px;
+}
+
+.details-description h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 25px;
+  margin: 0 0 16px;
+}
+
+.details-description p {
+  color: #737b87;
+  line-height: 1.8;
+  font-size: 15px;
+  margin-bottom: 35px;
+}
+
+.amenities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.amenities-list span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #596273;
+  font-size: 14px;
+}
+
+.amenities-list svg {
+  color: #bd965b;
+}
+
+.booking-card {
+  padding: 28px;
+  background: white;
+  border: 1px solid #eeeae3;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(32, 43, 60, 0.05);
+  height: fit-content;
+}
+
+.booking-card > p:first-child {
+  color: #737b87;
+  font-size: 14px;
+}
+
+.details-price {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 10px 0 25px;
+}
+
+.details-price span {
+  font-size: 14px;
+  font-weight: 400;
+  color: #737b87;
+}
+
+.reserve-button {
+  width: 100%;
+  padding: 15px;
+  background: #bd965b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.booking-note {
+  text-align: center;
+  color: #9299a3;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 15px;
+}
+
+.catalog-disclaimer {
+  color: #9299a3;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 28px;
+}
+
+.hotel-not-found {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.hotel-not-found a {
+  color: #bd965b;
+}
+
+@media (max-width: 768px) {
+  .details-navbar {
+    padding: 0 5%;
+  }
+
+  .hotel-details-container {
+    padding: 35px 20px 60px;
+  }
+
+  .details-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .details-heading h1 {
+    font-size: 32px;
+  }
+
+  .details-image {
+    height: 280px;
+  }
+
+  .details-content {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .booking-card {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .amenities-list {
+    gap: 18px;
+  }
+}
