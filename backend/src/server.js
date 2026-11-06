@@ -1,15 +1,26 @@
-import roomTypeRoutes from "./routes/roomTypeRoutes.js";
+
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import availabilityRoutes from "./routes/availabilityRoutes.js";
+import mongoose from "mongoose";
+
 import { connectPostgres, pool } from "./config/db.js";
 import { connectMongo } from "./config/mongo.js";
-import mongoose from "mongoose";
-import hotelRoutes from "./routes/hotelRoutes.js";
-import authRoutes from "./routes/authRoutes.js";
 
+import hotelRoutes from "./routes/hotelRoutes.js";
+import roomTypeRoutes from "./routes/roomTypeRoutes.js";
+import availabilityRoutes from "./routes/availabilityRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
+
+import {
+  startBookingExpirationWorker,
+  stopBookingExpirationWorker,
+} from "./services/bookingExpirationWorker.js";
+
+// Initialize Express
 const app = express();
 
 app.use(helmet());
@@ -21,10 +32,16 @@ app.use(
 );
 
 app.use(express.json());
+
+// API routes
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/hotels", roomTypeRoutes);
 app.use("/api/hotels", availabilityRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/bookings", bookingRoutes);
+app.use("/api/payments", paymentRoutes);
+
+// Health check
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
@@ -43,12 +60,17 @@ async function startServer() {
     await connectPostgres();
     await connectMongo();
 
+    // Start automatic booking expiration
+    startBookingExpirationWorker();
+
     const server = app.listen(PORT, () => {
       console.log(`StayScape API running on port ${PORT}`);
     });
 
     async function shutdown() {
       console.log("Shutting down StayScape API...");
+
+      stopBookingExpirationWorker();
 
       server.close(async () => {
         await pool.end();
@@ -62,6 +84,9 @@ async function startServer() {
     process.on("SIGTERM", shutdown);
   } catch (error) {
     console.error("Failed to start StayScape:", error.message);
+
+    stopBookingExpirationWorker();
+
     await pool.end();
     await mongoose.disconnect();
     process.exit(1);
