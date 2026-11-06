@@ -1,14 +1,30 @@
-
 import { useState } from "react";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
-import { ArrowLeft, Eye, EyeOff, LockKeyhole } from "lucide-react";
+
+import {
+  Link,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
+
+import {
+  ArrowLeft,
+  Eye,
+  EyeOff,
+  LockKeyhole,
+} from "lucide-react";
+
 import { useAuth } from "../context/AuthContext";
+
 import "./Login.css";
 
 function Login() {
-  const { login, isAuthenticated, authLoading } = useAuth();
+  const {
+    login,
+    isAuthenticated,
+    authLoading,
+  } = useAuth();
+
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -16,15 +32,23 @@ function Login() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+
   const [error, setError] = useState("");
+
   const [submitting, setSubmitting] = useState(false);
 
+  // Wait until session restoration is complete
   if (authLoading) {
-    return <div className="auth-loading">Loading...</div>;
+    return (
+      <div className="auth-loading">
+        Loading...
+      </div>
+    );
   }
 
+  // Already logged-in users should go to the homepage
   if (isAuthenticated) {
-    return <Navigate to="/profile" replace />;
+    return <Navigate to="/" replace />;
   }
 
   const handleChange = (event) => {
@@ -36,14 +60,16 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     setError("");
     setSubmitting(true);
 
     try {
       await login(formData);
 
-      const destination = location.state?.from?.pathname || "/";
-      navigate(destination, { replace: true });
+      // Always redirect to the StayScape homepage after login
+      navigate("/", { replace: true });
+
     } catch (err) {
       setError(
         err.response?.data?.message ||
@@ -56,27 +82,45 @@ function Login() {
 
   return (
     <main className="auth-page">
+
       <Link to="/" className="auth-back-link">
         <ArrowLeft size={17} />
         Back to StayScape
       </Link>
 
       <section className="auth-card">
+
         <Link to="/" className="auth-brand">
           <span className="brand-icon">S</span>
           StayScape<span>.</span>
         </Link>
 
         <div className="auth-heading">
-          <span className="auth-eyebrow">WELCOME BACK</span>
+
+          <span className="auth-eyebrow">
+            WELCOME BACK
+          </span>
+
           <h1>Sign in to your account.</h1>
-          <p>Continue discovering exceptional stays across India.</p>
+
+          <p>
+            Continue discovering exceptional stays across India.
+          </p>
+
         </div>
 
-        {error && <div className="auth-error">{error}</div>}
+        {error && (
+          <div className="auth-error">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
-          <label htmlFor="email">EMAIL ADDRESS</label>
+
+          <label htmlFor="email">
+            EMAIL ADDRESS
+          </label>
+
           <input
             id="email"
             name="email"
@@ -88,9 +132,14 @@ function Login() {
             required
           />
 
-          <label htmlFor="password">PASSWORD</label>
+          <label htmlFor="password">
+            PASSWORD
+          </label>
+
           <div className="password-input-wrapper">
+
             <LockKeyhole size={17} />
+
             <input
               id="password"
               name="password"
@@ -101,14 +150,22 @@ function Login() {
               autoComplete="current-password"
               required
             />
+
             <button
               type="button"
               className="password-toggle"
               onClick={() => setShowPassword(!showPassword)}
-              aria-label={showPassword ? "Hide password" : "Show password"}
+              aria-label={
+                showPassword ? "Hide password" : "Show password"
+              }
             >
-              {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+              {showPassword ? (
+                <EyeOff size={17} />
+              ) : (
+                <Eye size={17} />
+              )}
             </button>
+
           </div>
 
           <button
@@ -118,12 +175,18 @@ function Login() {
           >
             {submitting ? "Signing in..." : "Sign in"}
           </button>
+
         </form>
 
         <p className="auth-switch">
-          Don't have an account? <Link to="/register">Create one</Link>
+          Don't have an account?{" "}
+          <Link to="/register">
+            Create one
+          </Link>
         </p>
+
       </section>
+
     </main>
   );
 }
