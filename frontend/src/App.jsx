@@ -1,4 +1,3 @@
-
 import { Link, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 
@@ -6,6 +5,7 @@ import HotelDetails from "./pages/HotelDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import MyBookings from "./pages/MyBookings";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
@@ -132,14 +132,23 @@ function HomePage({ hotels, loading, error }) {
             Contact
           </a>
 
-          {/* Mobile account link */}
+          {/* Mobile account links */}
           {isAuthenticated ? (
-            <Link
-              to="/profile"
-              onClick={() => setMobileMenu(false)}
-            >
-              My account
-            </Link>
+            <>
+              <Link
+                to="/bookings"
+                onClick={() => setMobileMenu(false)}
+              >
+                My Bookings
+              </Link>
+
+              <Link
+                to="/profile"
+                onClick={() => setMobileMenu(false)}
+              >
+                My account
+              </Link>
+            </>
           ) : (
             <Link
               to="/login"
@@ -158,6 +167,10 @@ function HomePage({ hotels, loading, error }) {
 
           {isAuthenticated ? (
             <>
+              <Link to="/bookings" className="login-button">
+                My Bookings
+              </Link>
+
               <Link to="/profile" className="login-button">
                 Hi, {user.name.split(" ")[0]}
               </Link>
@@ -218,9 +231,7 @@ function HomePage({ hotels, loading, error }) {
                 <MapPin size={20} />
 
                 <div>
-                  <label htmlFor="destination">
-                    DESTINATION
-                  </label>
+                  <label htmlFor="destination">DESTINATION</label>
 
                   <input
                     id="destination"
@@ -237,9 +248,7 @@ function HomePage({ hotels, loading, error }) {
                 <CalendarDays size={19} />
 
                 <div>
-                  <label htmlFor="checkin">
-                    CHECK IN
-                  </label>
+                  <label htmlFor="checkin">CHECK IN</label>
 
                   <input
                     id="checkin"
@@ -264,9 +273,7 @@ function HomePage({ hotels, loading, error }) {
                 <CalendarDays size={19} />
 
                 <div>
-                  <label htmlFor="checkout">
-                    CHECK OUT
-                  </label>
+                  <label htmlFor="checkout">CHECK OUT</label>
 
                   <input
                     id="checkout"
@@ -287,9 +294,7 @@ function HomePage({ hotels, loading, error }) {
                 <Users size={20} />
 
                 <div>
-                  <label htmlFor="guests">
-                    GUESTS
-                  </label>
+                  <label htmlFor="guests">GUESTS</label>
 
                   <select
                     id="guests"
@@ -412,7 +417,9 @@ function HomePage({ hotels, loading, error }) {
                           ? "favorite-button favorited"
                           : "favorite-button"
                       }
-                      onClick={() => toggleFavorite(hotel.id)}
+                      onClick={() =>
+                        toggleFavorite(hotel.id)
+                      }
                       aria-label={
                         favorites.includes(hotel.id)
                           ? `Remove ${hotel.name} from favorites`
@@ -444,7 +451,10 @@ function HomePage({ hotels, loading, error }) {
                       </h3>
 
                       <span className="rating">
-                        <Star size={14} fill="currentColor" />
+                        <Star
+                          size={14}
+                          fill="currentColor"
+                        />
                         {hotel.rating}
                       </span>
                     </div>
@@ -618,6 +628,7 @@ function App() {
       {/* Protected routes */}
       <Route element={<ProtectedRoute />}>
         <Route path="/profile" element={<Profile />} />
+        <Route path="/bookings" element={<MyBookings />} />
       </Route>
 
       {/* Unknown routes */}
